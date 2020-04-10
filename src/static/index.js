@@ -18,32 +18,17 @@ function createGame() {
         }
     }
 
+    // function addPlayerPoints(command) {
+    //     const playerId = command.playerId
+
+    //     state.players[playerId].points = 
+
+    // }
+
     function removePlayer(command) {
         const playerId = command.playerId
 
         delete state.players[playerId]
-    }
-
-    function movePlayer(command) {
-        const acceptedMoves = {
-            ArrowUp(player) {
-                player.y = Math.max(player.y - 1, 0);
-            },
-            ArrowDown(player) {
-                player.y = Math.min(player.y + 1, screen.height - 1);
-            },
-            ArrowRight(player) {
-                player.x = Math.min(player.x + 1, screen.width - 1);
-            },
-            ArrowLeft(player) {
-                player.x = Math.max(player.x - 1, 0);
-            }
-        }
-        const keyPressed = command.keyPressed
-        const player = state.players[command.playerId]
-        const moveFunction = acceptedMoves[keyPressed]
-
-        if (player && moveFunction) moveFunction(player)
     }
 
     function addFruit(command) {
@@ -62,6 +47,46 @@ function createGame() {
 
         delete state.fruits[fruitId]
     }
+
+    function checkForFruitCollision(playerId) {
+        const player = state.players[playerId]
+
+        for (const fruitId in state.fruits) {
+            const fruit = state.fruits[fruitId]
+            if (player.x === fruit.x && player.y === fruit.y) {
+                console.log(`Collision between ${playerId} `)
+                removeFruit({ fruitId })
+            }
+        }
+    }
+
+    function movePlayer(command) {
+        const acceptedMoves = {
+            ArrowUp(player) {
+                player.y = Math.max(player.y - 1, 0);
+            },
+            ArrowDown(player) {
+                player.y = Math.min(player.y + 1, screen.height - 1);
+            },
+            ArrowRight(player) {
+                player.x = Math.min(player.x + 1, screen.width - 1);
+            },
+            ArrowLeft(player) {
+                player.x = Math.max(player.x - 1, 0);
+            }
+        }
+        const keyPressed = command.keyPressed
+        const playerId = command.playerId
+        const player = state.players[command.playerId]
+        const moveFunction = acceptedMoves[keyPressed]
+
+        if (player && moveFunction) {
+            moveFunction(player)
+            checkForFruitCollision(playerId)
+        }
+    }
+
+
 
     return {
         state,
@@ -90,8 +115,6 @@ function createKeyBoardListener() {
     }
 
     function notifyAll(command) {
-        console.log(`Notifying ${state.observers.length} observer`)
-
         for (const observerFunction of state.observers) {
             observerFunction(command)
         }
