@@ -3,13 +3,25 @@ const context = screen.getContext('2d')
 
 function createGame() {
     const state = {
-        players: {
-            'player1': { x: 1, y: 1 },
-            'player2': { x: 9, y: 9 }
-        },
-        fruits: {
-            'fruit1': { x: 3, y: 1 }
+        players: {},
+        fruits: {}
+    }
+
+    function addPlayer(command) {
+        const playerId = command.playerId
+        const playerX = command.playerX
+        const playerY = command.playerY
+
+        state.players[playerId] = {
+            x: playerX,
+            y: playerY
         }
+    }
+
+    function removePlayer(command) {
+        const playerId = command.playerId
+
+        delete state.players[playerId]
     }
 
     function movePlayer(command) {
@@ -31,12 +43,33 @@ function createGame() {
         const player = state.players[command.playerId]
         const moveFunction = acceptedMoves[keyPressed]
 
-        if (moveFunction) moveFunction(player)
+        if (player && moveFunction) moveFunction(player)
+    }
+
+    function addFruit(command) {
+        const fruitId = command.fruitId
+        const fruitX = command.fruitX
+        const fruitY = command.fruitY
+
+        state.fruits[fruitId] = {
+            x: fruitX,
+            y: fruitY
+        }
+    }
+
+    function removeFruit(command) {
+        const fruitId = command.fruitId
+
+        delete state.fruits[fruitId]
     }
 
     return {
         state,
-        movePlayer
+        addPlayer,
+        removePlayer,
+        movePlayer,
+        addFruit,
+        removeFruit
     }
 }
 
