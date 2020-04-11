@@ -4,7 +4,7 @@ import renderScreen from './render';
 
 const screen = document.getElementById('screen')
 const game = createGame()
-const keyboardListener = createKeyBoardListener()
+const keyboardListener = createKeyBoardListener(document)
 keyboardListener.subscribe(game.movePlayer)
 
 renderScreen(screen, game, requestAnimationFrame);

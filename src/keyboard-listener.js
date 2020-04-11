@@ -1,4 +1,4 @@
-export default function createKeyBoardListener() {
+export default function createKeyBoardListener(document) {
     const state = {
         observers: []
     }
