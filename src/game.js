@@ -1,11 +1,13 @@
-const screen = document.getElementById('screen')
-const context = screen.getContext('2d')
-
-function createGame() {
+export default function createGame() {
     const state = {
         players: {},
-        fruits: {}
-    }
+        fruits: {},
+        screen: {
+            height: 10,
+            width: 10
+        }
+    };
+
 
     function addPlayer(command) {
         const playerId = command.playerId
@@ -16,20 +18,13 @@ function createGame() {
             x: playerX,
             y: playerY
         }
-    }
-
-    // function addPlayerPoints(command) {
-    //     const playerId = command.playerId
-
-    //     state.players[playerId].points = 
-
-    // }
+    };
 
     function removePlayer(command) {
         const playerId = command.playerId
 
         delete state.players[playerId]
-    }
+    };
 
     function addFruit(command) {
         const fruitId = command.fruitId
@@ -40,13 +35,13 @@ function createGame() {
             x: fruitX,
             y: fruitY
         }
-    }
+    };
 
     function removeFruit(command) {
         const fruitId = command.fruitId
 
         delete state.fruits[fruitId]
-    }
+    };
 
     function checkForFruitCollision(playerId) {
         const player = state.players[playerId]
@@ -58,7 +53,7 @@ function createGame() {
                 removeFruit({ fruitId })
             }
         }
-    }
+    };
 
     function movePlayer(command) {
         const acceptedMoves = {
@@ -66,15 +61,15 @@ function createGame() {
                 player.y = Math.max(player.y - 1, 0);
             },
             ArrowDown(player) {
-                player.y = Math.min(player.y + 1, screen.height - 1);
+                player.y = Math.min(player.y + 1, state.screen.height - 1);
             },
             ArrowRight(player) {
-                player.x = Math.min(player.x + 1, screen.width - 1);
+                player.x = Math.min(player.x + 1, state.screen.width - 1);
             },
             ArrowLeft(player) {
                 player.x = Math.max(player.x - 1, 0);
             }
-        }
+        };
         const keyPressed = command.keyPressed
         const playerId = command.playerId
         const player = state.players[command.playerId]
@@ -83,8 +78,13 @@ function createGame() {
         if (player && moveFunction) {
             moveFunction(player)
             checkForFruitCollision(playerId)
-        }
-    }
+        };
+    };
+
+
+    addPlayer({ playerId: 'player1', playerX: 0, playerY: 0 })
+    addPlayer({ playerId: 'player2', playerX: 4, playerY: 9 })
+    addFruit({ fruitId: 'fruit1', fruitX: 2, fruitY: 6 })
 
 
 
@@ -92,73 +92,8 @@ function createGame() {
         state,
         addPlayer,
         removePlayer,
-        movePlayer,
         addFruit,
-        removeFruit
+        removePlayer,
+        movePlayer
     }
 }
-
-const game = createGame()
-
-
-const keyboardListener = createKeyBoardListener()
-keyboardListener.subscribe(game.movePlayer)
-
-
-function createKeyBoardListener() {
-    const state = {
-        observers: []
-    }
-
-    function subscribe(observerFunction) {
-        state.observers.push(observerFunction)
-    }
-
-    function notifyAll(command) {
-        for (const observerFunction of state.observers) {
-            observerFunction(command)
-        }
-    }
-
-
-    document.addEventListener('keydown', keyDownHandler)
-
-    function keyDownHandler(event) {
-        const keyPressed = event.key
-
-        const command = {
-            playerId: 'player1',
-            keyPressed
-        }
-
-        notifyAll(command);
-    }
-
-    return {
-        subscribe
-    }
-}
-
-
-
-
-(function renderScreen() {
-    context.fillStyle = 'white'
-    context.clearRect(0, 0, 10, 10)
-
-    for (const playerId in game.state.players) {
-        const player = game.state.players[playerId]
-
-        context.fillStyle = 'black'
-        context.fillRect(player.x, player.y, 1, 1)
-    }
-
-    for (const fruitId in game.state.fruits) {
-        const fruit = game.state.fruits[fruitId]
-
-        context.fillStyle = 'green'
-        context.fillRect(fruit.x, fruit.y, 1, 1)
-    }
-
-    requestAnimationFrame(renderScreen)
-})();
