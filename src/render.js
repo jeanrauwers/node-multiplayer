@@ -1,4 +1,6 @@
-export default function renderScreen(context, game) {
+export default function renderScreen(screen, game, requestAnimationFrame) {
+    const context = screen.getContext('2d')
+
     context.fillStyle = 'white'
     context.clearRect(0, 0, 10, 10)
 
@@ -16,5 +18,7 @@ export default function renderScreen(context, game) {
         context.fillRect(fruit.x, fruit.y, 1, 1)
     }
 
-    requestAnimationFrame(renderScreen)
+    requestAnimationFrame(() => {
+        renderScreen(screen, game, requestAnimationFrame)
+    })
 }

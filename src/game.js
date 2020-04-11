@@ -81,13 +81,6 @@ export default function createGame() {
         };
     };
 
-
-    addPlayer({ playerId: 'player1', playerX: 0, playerY: 0 })
-    addPlayer({ playerId: 'player2', playerX: 4, playerY: 9 })
-    addFruit({ fruitId: 'fruit1', fruitX: 2, fruitY: 6 })
-
-
-
     return {
         state,
         addPlayer,
