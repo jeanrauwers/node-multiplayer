@@ -36,7 +36,7 @@ module.exports = function (env, argv) {
 
     return {
         entry: {
-            main: './src/index.js'
+            main: './src/client.js'
         },
         resolve: {
             extensions: ['.js', '.jsx', '.json', '.css', '.scss']
