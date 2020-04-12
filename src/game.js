@@ -130,7 +130,7 @@ function createGame() {
         addPlayer,
         removePlayer,
         addFruit,
-        removePlayer,
+        removeFruit,
         movePlayer,
         subscribe
     }

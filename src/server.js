@@ -36,6 +36,17 @@ sockets.on('connection', (socket) => {
         game.removePlayer(command);
     });
 
+    socket.on('add-fruit', (command) => {
+        console.log(`Receiving ${command.type} -> ${command.playerId}`);
+        game.addFruit(command);
+    });
+
+    socket.on('remove-fruit', (command) => {
+        console.log(`Receiving ${command.type} -> ${command.playerId}`);
+        game.removeFruit(command);
+    });
+
+
     socket.on('disconnect', () => {
         game.removePlayer({ playerId })
     })
