@@ -1,4 +1,4 @@
-export default function createGame() {
+function createGame() {
     const state = {
         players: {},
         fruits: {},
@@ -90,3 +90,5 @@ export default function createGame() {
         movePlayer
     }
 }
+
+module.exports = createGame

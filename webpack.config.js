@@ -42,15 +42,6 @@ module.exports = function (env, argv) {
             extensions: ['.js', '.jsx', '.json', '.css', '.scss']
         },
         devtool: isDevMode ? 'eval-source-map' : 'hidden-source-map',
-        devServer: {
-            hot: true,
-            watchOptions: {
-                pool: true
-            },
-            contentBase: path.join(__dirname, 'dist'),
-            compress: true,
-            port: 3333
-        },
 
         module: {
             rules: [

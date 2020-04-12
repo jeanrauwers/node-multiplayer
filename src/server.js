@@ -1,15 +1,30 @@
 const express = require('express');
-const path = require('path');
+const http = require('http');
+const createGame = require('./game')
+const socketio = require('socket.io');
+
 const app = express();
+const server = http.createServer(app);
 const port = 3000;
+const socket = socketio(server);
 
-app.use(express.static(path.join(__dirname + '/static')));
+
+app.use(express.static('dist'));
 
 
-app.get('/', function (req, res) {
-    res.sendFile(path.join(__dirname + '/public/client.html'));
-});
+const game = createGame();
 
-app.listen(port, () => {
+game.addPlayer({ playerId: 'player1', playerX: 0, playerY: 0 })
+game.addPlayer({ playerId: 'player2', playerX: 4, playerY: 9 })
+game.addFruit({ fruitId: 'fruit1', fruitX: 2, fruitY: 6 })
+
+console.log(game.state)
+
+socket.on('connection', (socket) => {
+    const playerId = socket.id
+    console.log(`Player connected on server with id: ${playerId}`)
+})
+
+server.listen(port, () => {
     console.log(`Listening on: http://localhost:${port}`)
 })
