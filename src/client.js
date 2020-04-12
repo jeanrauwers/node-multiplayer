@@ -8,18 +8,16 @@ const keyboardListener = createKeyBoardListener(document)
 const game = createGame()
 
 
-renderScreen(screen, game, requestAnimationFrame);
 
 const socket = io()
 
 socket.on('connect', () => {
     const playerId = socket.id
     console.log(`Player ${playerId} connected to the server`)
+    renderScreen(screen, game, requestAnimationFrame, playerId);
 })
-
 socket.on('setup', (state) => {
     const playerId = socket.id
-
     game.setState(state)
 
     keyboardListener.registerPlayerId(playerId)

@@ -27,12 +27,10 @@ sockets.on('connection', (socket) => {
     socket.emit('setup', game.state);
 
     socket.on('add-player', (command) => {
-        console.log(`Receiving ${command.type} -> ${command.playerId}`);
         game.addPlayer(command);
     });
 
     socket.on('remove-player', (command) => {
-        console.log(`Receiving ${command.type} -> ${command.playerId}`);
         game.removePlayer(command);
     });
 
