@@ -8,11 +8,14 @@ function createGame() {
         }
     };
 
+    function setState(newState) {
+        Object.assign(state, newState)
+    }
 
     function addPlayer(command) {
         const playerId = command.playerId
-        const playerX = command.playerX
-        const playerY = command.playerY
+        const playerX = 'playerX' in command ? command.playerX : Math.floor(Math.random() * state.screen.width)
+        const playerY = 'playerY' in command ? command.playerY : Math.floor(Math.random() * state.screen.height)
 
         state.players[playerId] = {
             x: playerX,
@@ -28,8 +31,8 @@ function createGame() {
 
     function addFruit(command) {
         const fruitId = command.fruitId
-        const fruitX = command.fruitX
-        const fruitY = command.fruitY
+        const fruitX = 'fruitX' in command ? command.fruitX : Math.floor(Math.random() * state.screen.width)
+        const fruitY = 'fruitY' in command ? command.fruitY : Math.floor(Math.random() * state.screen.height)
 
         state.fruits[fruitId] = {
             x: fruitX,
@@ -83,6 +86,7 @@ function createGame() {
 
     return {
         state,
+        setState,
         addPlayer,
         removePlayer,
         addFruit,
