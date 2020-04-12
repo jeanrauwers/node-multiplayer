@@ -14,9 +14,16 @@ renderScreen(screen, game, requestAnimationFrame);
 const socket = io()
 
 socket.on('connect', () => {
-    const playerId = socket.id
+    const playerId = socket.io
+    console.log(`Player ${playerId} connected to the server`)
 })
 
 socket.on('setup', (state) => {
     game.setState(state)
 })
+
+socket.on('add-player', (command) => {
+    console.log(`Receiving ${command.type} -> ${command.playerId}`)
+    game.addPlayer(command);
+});
+

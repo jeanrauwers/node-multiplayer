@@ -14,18 +14,32 @@ app.use(express.static('dist'));
 
 const game = createGame();
 
+game.subscribe((command) => {
+    console.log(`> Emitting ${command.type}`)
+    sockets.emit(command.type, command)
+})
 
 sockets.on('connection', (socket) => {
-    const playerId = socket.id
-    console.log(`Player connected on server with id: ${playerId}`);
+    const playerId = socket.id;
+
     game.addPlayer({ playerId });
 
     socket.emit('setup', game.state);
 
-    socket.on('disconnect', () => {
-        console.log(`Player ${playerId} disconnected`)
-        game.removePlayer({ playerId })
+    socket.on('add-player', (command) => {
+        console.log(`Receiving ${command.type} -> ${command.playerId}`);
+        game.addPlayer(command);
     });
+
+    socket.on('remove-player', (command) => {
+        console.log(`Receiving ${command.type} -> ${command.playerId}`);
+        game.removePlayer(command);
+    });
+
+    socket.on('disconnect', () => {
+        game.removePlayer({ playerId })
+    })
+
 })
 
 

@@ -8,6 +8,20 @@ function createGame() {
         }
     };
 
+
+    const observers = [];
+
+    function subscribe(observerFunction) {
+        observers.push(observerFunction)
+    }
+
+    function notifyAll(command) {
+        for (const observerFunction of observers) {
+            observerFunction(command)
+        }
+    }
+
+
     function setState(newState) {
         Object.assign(state, newState)
     }
@@ -21,12 +35,25 @@ function createGame() {
             x: playerX,
             y: playerY
         }
+
+        notifyAll({
+            type: 'add-player',
+            playerId,
+            playerX,
+            playerY
+        })
     };
 
     function removePlayer(command) {
         const playerId = command.playerId
 
         delete state.players[playerId]
+
+
+        notifyAll({
+            type: 'remove-player',
+            playerId
+        })
     };
 
     function addFruit(command) {
@@ -38,12 +65,25 @@ function createGame() {
             x: fruitX,
             y: fruitY
         }
+
+
+        notifyAll({
+            type: 'add-fruit',
+            fruitId,
+            fruitX,
+            fruitY
+        })
     };
 
     function removeFruit(command) {
         const fruitId = command.fruitId
 
         delete state.fruits[fruitId]
+
+        notifyAll({
+            type: 'remove-fruit',
+            fruitId
+        })
     };
 
     function checkForFruitCollision(playerId) {
@@ -91,7 +131,8 @@ function createGame() {
         removePlayer,
         addFruit,
         removePlayer,
-        movePlayer
+        movePlayer,
+        subscribe
     }
 }
 
