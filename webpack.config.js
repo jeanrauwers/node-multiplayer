@@ -1,6 +1,5 @@
 const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 
@@ -16,14 +15,6 @@ module.exports = function (env, argv) {
         })
     );
 
-    // if (!isDevMode) {
-    //     plugins.push(
-    //         new MiniCssExtractPlugin({
-    //             filename: '[name].css'
-    //         })
-    //     );
-    // }
-
     return {
         entry: {
             main: './src/client.js'
@@ -35,26 +26,6 @@ module.exports = function (env, argv) {
 
         module: {
             rules: [
-                // {
-                //     test: /\.s?css$/,
-                //     use: [
-                //         isDevMode
-                //             ? { loader: 'style-loader', options: { sourceMap: true } }
-                //             : {
-                //                 loader: MiniCssExtractPlugin.loader,
-                //                 options: { sourceMap: true }
-                //             },
-                //         {
-                //             loader: 'css-loader',
-                //             options: {
-                //                 sourceMap: true,
-                //                 localIdentName: '[name]__[local]___[hash:base64:5]'
-                //             }
-                //         },
-                //         { loader: 'postcss-loader', options: { sourceMap: true } },
-                //         { loader: 'sass-loader', options: { sourceMap: true } }
-                //     ]
-                // },
                 {
                     test: /\.js?$/,
                     exclude: /node_modules/,

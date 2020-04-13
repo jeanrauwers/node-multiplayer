@@ -10,8 +10,7 @@ Clone the repo and then:
 
 ``` $npm install  ```
 
-``` $npm run build```
+``` $npm run start:game```
 
-``` $npm run server ```
  
 Go to http://localhost:3000/  and have fun. 
