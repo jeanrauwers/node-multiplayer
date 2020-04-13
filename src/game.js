@@ -11,6 +11,11 @@ function createGame() {
 
     const observers = [];
 
+    function start() {
+        const frequency = 2000;
+        setInterval(addFruit, frequency)
+    }
+
     function subscribe(observerFunction) {
         observers.push(observerFunction)
     }
@@ -57,9 +62,9 @@ function createGame() {
     };
 
     function addFruit(command) {
-        const fruitId = command.fruitId
-        const fruitX = 'fruitX' in command ? command.fruitX : Math.floor(Math.random() * state.screen.width)
-        const fruitY = 'fruitY' in command ? command.fruitY : Math.floor(Math.random() * state.screen.height)
+        const fruitId = command ? command.fruitId : Math.floor(Math.random() * 1000000)
+        const fruitX = command ? command.fruitX : Math.floor(Math.random() * state.screen.width)
+        const fruitY = command ? command.fruitY : Math.floor(Math.random() * state.screen.height)
 
         state.fruits[fruitId] = {
             x: fruitX,
@@ -134,7 +139,8 @@ function createGame() {
         addFruit,
         removeFruit,
         movePlayer,
-        subscribe
+        subscribe,
+        start
     }
 }
 

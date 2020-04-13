@@ -13,6 +13,7 @@ app.use(express.static('dist'));
 
 
 const game = createGame();
+game.start();
 
 game.subscribe((command) => {
     console.log(`> Emitting ${command.type}`)
