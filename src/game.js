@@ -35,17 +35,21 @@ function createGame() {
         const playerId = command.playerId
         const playerX = 'playerX' in command ? command.playerX : Math.floor(Math.random() * state.screen.width)
         const playerY = 'playerY' in command ? command.playerY : Math.floor(Math.random() * state.screen.height)
+        const score = 0
+
 
         state.players[playerId] = {
             x: playerX,
-            y: playerY
+            y: playerY,
+            score
         }
 
         notifyAll({
             type: 'add-player',
             playerId,
             playerX,
-            playerY
+            playerY,
+            score
         })
     };
 
@@ -99,6 +103,7 @@ function createGame() {
             if (player.x === fruit.x && player.y === fruit.y) {
                 console.log(`Collision between ${playerId} `)
                 removeFruit({ fruitId })
+                player.score += 1
             }
         }
     };

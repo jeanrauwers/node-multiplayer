@@ -1,5 +1,5 @@
 import createKeyBoardListener from './keyboard-listener';
-import renderScreen from './render';
+import renderScreen, { setupScreen } from './render'
 import createGame from './game';
 import io from 'socket.io-client';
 
@@ -13,7 +13,14 @@ const socket = io()
 
 socket.on('connect', () => {
     const playerId = socket.id
-    renderScreen(screen, game, requestAnimationFrame, playerId);
+    const scoreTable = document.getElementById('score-table')
+
+    setupScreen(screen, game)
+    renderScreen(screen, scoreTable, game, requestAnimationFrame, playerId);
+})
+
+socket.on('disconnect', () => {
+    keyboardListener.unsubscribeAll();
 })
 
 socket.on('setup', (state) => {
