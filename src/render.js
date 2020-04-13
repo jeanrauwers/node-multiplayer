@@ -39,12 +39,14 @@ export default function renderScreen(screen, scoreTable, game, requestAnimationF
 
     requestAnimationFrame(() => {
         renderScreen(screen, scoreTable, game, requestAnimationFrame, currentPlayerId)
+
     })
 }
 
 function updateScoreTable(scoreTable, game, currentPlayerId) {
     const maxResults = 10
 
+    console.log('currentPlayer', currentPlayerId)
     let scoreTableInnerHTML = `
         <tr class="header">
             <td>Top 10 Players</td>
