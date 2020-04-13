@@ -99,6 +99,8 @@ function createGame() {
     };
 
     function movePlayer(command) {
+        notifyAll(command)
+
         const acceptedMoves = {
             ArrowUp(player) {
                 player.y = Math.max(player.y - 1, 0);

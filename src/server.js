@@ -44,6 +44,12 @@ sockets.on('connection', (socket) => {
         game.removeFruit(command);
     });
 
+    socket.on('move-player', (command) => {
+        command.playerId = playerId
+        command.type = 'move-player'
+
+        game.movePlayer(command)
+    })
 
     socket.on('disconnect', () => {
         game.removePlayer({ playerId })

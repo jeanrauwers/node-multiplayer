@@ -13,15 +13,18 @@ const socket = io()
 
 socket.on('connect', () => {
     const playerId = socket.id
-    console.log(`Player ${playerId} connected to the server`)
     renderScreen(screen, game, requestAnimationFrame, playerId);
 })
+
 socket.on('setup', (state) => {
     const playerId = socket.id
     game.setState(state)
 
     keyboardListener.registerPlayerId(playerId)
     keyboardListener.subscribe(game.movePlayer)
+    keyboardListener.subscribe((command) => {
+        socket.emit('move-player', command)
+    })
 })
 
 socket.on('add-player', (command) => {
@@ -44,4 +47,12 @@ socket.on('remove-fruit', (command) => {
     game.removeFruit(command);
 });
 
+
+socket.on('move-player', (command) => {
+    const playerId = socket.id
+
+    if (playerId !== command.playerId) {
+        game.movePlayer(command)
+    }
+});
 

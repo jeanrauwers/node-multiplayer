@@ -10,7 +10,6 @@ export default function createKeyBoardListener(document) {
 
     function subscribe(observerFunction) {
         state.observers.push(observerFunction)
-        console.log('keyboard playerid', state.playerId)
     }
 
     function notifyAll(command) {
@@ -22,7 +21,9 @@ export default function createKeyBoardListener(document) {
 
     function keyDownHandler(event) {
         const keyPressed = event.key
+
         const command = {
+            type: 'move-player',
             playerId: state.playerId,
             keyPressed
         }
