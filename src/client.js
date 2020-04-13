@@ -28,22 +28,18 @@ socket.on('setup', (state) => {
 })
 
 socket.on('add-player', (command) => {
-    console.log(`Receiving ${command.type} -> ${command.playerId}`)
     game.addPlayer(command);
 });
 
 socket.on('remove-player', (command) => {
-    console.log(`Receiving ${command.type} -> ${command.playerId}`);
     game.removePlayer(command);
 });
 
 socket.on('add-fruit', (command) => {
-    console.log(`Receiving ${command.type} -> ${command.playerId}`);
     game.addFruit(command);
 });
 
 socket.on('remove-fruit', (command) => {
-    console.log(`Receiving ${command.type} -> ${command.playerId}`);
     game.removeFruit(command);
 });
 
